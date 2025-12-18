@@ -2,6 +2,10 @@
 # STAGE 1: Builder
 # ═══════════════════════════════════════
 FROM bellsoft/liberica-openjdk-alpine:25 AS builder
+
+# Install Maven (not included in JDK image)
+RUN apk add --no-cache maven
+
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
