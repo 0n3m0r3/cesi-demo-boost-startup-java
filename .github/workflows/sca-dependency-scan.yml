@@ -24,7 +24,15 @@ jobs:
           distribution: 'liberica'
           cache: 'maven'
 
-      - name: 🔍 Check NVD API Key availability
+      - name: � Cache NVD Database
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: nvd-database-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            nvd-database-${{ runner.os }}-
+
+      - name: �🔍 Check NVD API Key availability
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: |
