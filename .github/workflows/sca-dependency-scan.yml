@@ -46,12 +46,14 @@ jobs:
             mvn org.owasp:dependency-check-maven:check \
               -DfailBuildOnCVSS=7 \
               -DsuppressionFiles=.owasp-suppressions.xml \
+              -Dformats=HTML,JSON,SARIF \
               -DnvdApiKey=${NVD_API_KEY}
           else
             echo "🐌 Running without NVD API Key (slower download)"
             mvn org.owasp:dependency-check-maven:check \
               -DfailBuildOnCVSS=7 \
-              -DsuppressionFiles=.owasp-suppressions.xml
+              -DsuppressionFiles=.owasp-suppressions.xml \
+              -Dformats=HTML,JSON,SARIF
           fi
 
       - name: 📤 Upload Dependency Check SARIF
