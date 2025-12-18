@@ -80,6 +80,6 @@ jobs:
   # ÉTAPE 9 : DÉPLOIEMENT EN PRODUCTION
   # ═══════════════════════════════════════════════
   deploy-docker:
-    needs: dast-zap-test
+    needs: dast-dynamic-security-testing
     uses: ./.github/workflows/deploy-production-server.yml
     secrets: inherit
