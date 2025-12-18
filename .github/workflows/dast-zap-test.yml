@@ -53,8 +53,21 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DEPLOY_APPLI_NAME }}:${{ github.sha }}
 
       - name: Wait for application to be ready
+        id: health-check
         run: |
           timeout 90 sh -c 'until curl -f http://localhost:8080/actuator/health; do sleep 2; done'
+
+      - name: Debug - Show application logs on failure
+        if: failure() && steps.health-check.outcome == 'failure'
+        run: |
+          echo "=== Application Container Logs ==="
+          docker logs test-app
+          echo ""
+          echo "=== Container Status ==="
+          docker ps -a
+          echo ""
+          echo "=== MongoDB Container Logs ==="
+          docker logs mongodb
 
       - name: Create ZAP reports directory
         run: |
